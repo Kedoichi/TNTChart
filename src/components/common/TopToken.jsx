@@ -3,7 +3,7 @@ import { checkImg } from "../../utils/funcs";
 import { svg2img } from "../../utils/randomAvatar";
 import { removeW } from "../../utils/funcs";
 
-const TopToken = ({ itemData }) => {
+const TopToken = ({ itemData, onClick }) => {
   const [imageExists, setImageExists] = useState(false);
   const tokenRef = useRef(null);
 
@@ -30,8 +30,20 @@ const TopToken = ({ itemData }) => {
     }
   }, [itemData.symbol]);
 
+  const handleClick = () => {
+    if (onClick) {
+      onClick(itemData);
+    }
+  };
+
+
   return (
-    <div ref={tokenRef} className="token-item font-header top-token">
+    <div
+      ref={tokenRef}
+      className="token-item font-header top-token"
+      onClick={() => onClick(itemData)}
+      style={{ cursor: "pointer" }}
+    >
       <div className="token-element">{itemData.num}</div>
       <img
         className="token-element"

@@ -71,22 +71,23 @@ const TokenRow = ({ data }) => {
         </span>
       </td>
       <td style={{ textAlign: "start" }} className="font-regular">
-        {"$" + data.derivedUSD}
+        {"$" + data.derivedUSD} {/* Derived USD value */}
       </td>
       <td style={{ textAlign: "start" }} className="font-regular">
-        ${formatNumber(data.tradeVolumeUSD * 1)}
+        ${formatNumber(data.tradeVolumeUSD * 1)} {/* Trade volume in USD */}
       </td>
       <td style={{ textAlign: "start" }} className="font-regular">
-        {"$" + formatNumber(data.totalLiquidityUSD * 1)}
+        {"$" + formatNumber(data.totalLiquidityUSD * 1)}{" "}
+        {/* Total liquidity in USD */}
       </td>
       <td style={{ textAlign: "start" }} className="font-regular">
-        {"$" + formatNumber(data.tradeVolume * 1)}
+        {"$" + formatNumber(data.tradeVolume * 1)} {/* Trade volume */}
       </td>
       <td
         style={{ textAlign: "start", paddingRight: "80px" }}
         className="font-regular"
       >
-        {"2yr 3mon"}
+        {"2yr 3mon"} {/* Example duration or time period */}
       </td>
     </tr>
   );

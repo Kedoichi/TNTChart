@@ -8,6 +8,8 @@ import TopTokenList from "./common/TopTokenList";
 import "./style.css";
 import { createTheme, useMediaQuery } from "@mui/material";
 
+import TokenModal from "./TokenModal";
+
 const TokenList = () => {
   const theme = createTheme({
     // Define the theme within the component
@@ -26,6 +28,28 @@ const TokenList = () => {
   const MediumScreen = useMediaQuery(theme.breakpoints.down("lg")); // Use the theme with useMediaQuery
 
   const [isMediumScreen, setIsMediumScreen] = useState(MediumScreen);
+
+  const [selectedToken, setSelectedToken] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false); // Added missing modalOpen state
+
+  const handleTokenClick = (clickedToken) => {
+    // Find the full token data from the original tokenList
+    const fullTokenData = tokenList.find(token => token.id === clickedToken.id);
+    if (fullTokenData) {
+      // Add calculated fields to the full token data
+      const processedToken = {
+        ...fullTokenData,
+        riserate: ((fullTokenData.volume24HrsETH * 1) / (fullTokenData.tradeVolumeETH * 1) * 100).toFixed(2)
+      };
+      setSelectedToken(processedToken);
+      setModalOpen(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedToken(null);
+  };
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -113,7 +137,10 @@ const TokenList = () => {
         alt="Token List Logo"
         className="token-list-logo"
       />
-      <TopTokenList tokenList={limitedTokenList} />
+      <TopTokenList
+        tokenList={limitedTokenList}
+        onTokenClick={handleTokenClick}
+      />
       <div
         className="dropdown-container font-header"
         style={{ position: "relative" }}
@@ -158,6 +185,11 @@ const TokenList = () => {
           </div>
         )}
       </div>
+      <TokenModal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        token={selectedToken}
+      />
     </div>
   );
 };
